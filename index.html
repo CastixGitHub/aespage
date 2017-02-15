@@ -75,7 +75,7 @@
 			// get the text and convert it into bytes
 			var text = document.getElementById("textarea_id0").value;
 			console.log("original text:" + text);
-			var textBytes = aesjs.util.convertStringToBytes(text);
+			var textBytes = aesjs.utils.utf8.toBytes(text)
 			console.log("original text in bytes:" + textBytes);
 
 			// get the key and calculate the sha-256 hash, then convert it into bytes
@@ -122,7 +122,7 @@
 
 			var decryptedBytes = aesCtr.decrypt(encryptedBytes);
 			console.log("decryptedBytes:" + decryptedBytes);
-			var decryptedText = aesjs.util.convertBytesToString(decryptedBytes);
+			var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
 
 			document.getElementById("textarea_id1").value = decryptedText;
 		}
