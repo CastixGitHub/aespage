@@ -4,36 +4,12 @@
 		<meta charset="UTF-8">
 		<script src="https://rawgit.com/ricmoo/aes-js/master/index.js"></script>
 		<script src="https://rawgit.com/brillout/forge-sha256/master/build/forge-sha256.min.js"></script>
-		<script>
-		// http://stackoverflow.com/questions/14603205/how-to-convert-hex-string-into-a-bytes-array-and-a-bytes-array-in-the-hex-strin
-		// Convert a hex string to a byte array
-		function hexToBytes(hex) {
-		    for (var bytes = [], c = 0; c < hex.length; c += 2)
-		    bytes.push(parseInt(hex.substr(c, 2), 16));
-		    return bytes;
-		}
-		</script>
+		<script src="script.js"></script>
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+		<link rel="stylesheet" href="style.css">
 
-		<style>
-		html {
-			font-size: 100%;
-		}
-
-		header {
-			text-align: center;
-		}
-
-		textarea {
-			min-height: 10rem;
-		}
-
-		div.row {
-			 margin: .8rem 0;
-		}
-		</style>
 	</head>
 	<body class="container">
 		<header>
@@ -42,10 +18,10 @@
 
 		<div>
 			<div class="row">
-				<textarea class="u-full-width" cols="80" rows="40" id="textarea_id0" placeholder="inserisci qui il testo in chiaro o da decriptare"></textarea>
+				<textarea class="u-full-width" cols="80" rows="40" id="textarea_id0" placeholder="Inserisci qui il testo in chiaro o da decriptare"></textarea>
 			</div>
 			<div class="row">
-				<input class="u-full-width" type="password" id="input_key" placeholder="Chiave">
+				<input class="u-full-width" type="password" id="input_key" placeholder="Passphrase">
 			</div>
 			<div class="row">
 				<div class="four columns">
@@ -65,67 +41,12 @@
 
 		<p>
 			Questa pagina ti permette di criptare e decriptare un testo in
-			<a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a>
-			da qualsiasi dispositivo senza dover inviare nessun dato su internet
+			<a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a> (CTR con chiave a 256 bit)
+			da qualsiasi dispositivo senza elaborazione su un server remoto.<br>
+		</p>
+		<p>
+			Trovi il sorgente su <a href="https://github.com/CastixGitHub/aespage">GitHub</a>
 		</p>
 
-		<script>
-		function encrypt() {
-			console.log("ENCRYPT");
-			// get the text and convert it into bytes
-			var text = document.getElementById("textarea_id0").value;
-			console.log("original text:" + text);
-			var textBytes = aesjs.utils.utf8.toBytes(text)
-			console.log("original text in bytes:" + textBytes);
-
-			// get the key and calculate the sha-256 hash, then convert it into bytes
-			var key = document.getElementById("input_key").value;
-			key = forge_sha256(key);
-			console.log("keyhash:" + key);
-			key = hexToBytes(key);
-			console.log("key:" + key);
-
-			// get the counter and instance the ctr operation mode
-			// reference: https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_.28CTR.29
-			var aesCtr = parseInt(document.getElementById("input_counter").value);
-			console.log("counter:" + aesCtr);
-			aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(aesCtr));
-
-			// encrypt the text, then encode it with base64 (btoa)
-			// reference: https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
-			var encryptedBytes = aesCtr.encrypt(textBytes);
-			console.log("encryptedBytes:" + encryptedBytes);
-			var encryptedText = btoa(encryptedBytes);
-
-			document.getElementById("textarea_id1").value = encryptedText;
-		}
-
-		function decrypt() {
-			console.log("DECRYPT");
-			// get the text and convert it into bytes
-			var text = document.getElementById("textarea_id0").value;
-			console.log("original text:" + text);
-			var encryptedText = atob(text);
-			var encryptedBytes = JSON.parse("[" + encryptedText + "]");
-			console.log("encryptedBytes:" + encryptedBytes);
-
-			// get the key and calculate the sha-256 hash, then convert it into bytes
-			var key = document.getElementById("input_key").value;
-			key = forge_sha256(key);
-			console.log("keyhash:" + key);
-			key = hexToBytes(key);
-			console.log("key:" + key);
-
-			var aesCtr = parseInt(document.getElementById("input_counter").value);
-			console.log("counter:" + aesCtr);
-			aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(aesCtr));
-
-			var decryptedBytes = aesCtr.decrypt(encryptedBytes);
-			console.log("decryptedBytes:" + decryptedBytes);
-			var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
-
-			document.getElementById("textarea_id1").value = decryptedText;
-		}
-		</script>
 	</body>
 </html>

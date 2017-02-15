@@ -1,0 +1,15 @@
+html {
+  font-size: 100%;
+}
+
+header {
+  text-align: center;
+}
+
+textarea {
+  min-height: 12rem;
+}
+
+div.row {
+   margin: .8rem 0;
+}
