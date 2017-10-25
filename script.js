@@ -18,7 +18,7 @@ through which recipients can access the Corresponding Source.
 // Convert a hex string to a byte array
 function hexToBytes(hex) {
     for (var bytes = [], c = 0; c < hex.length; c += 2)
-    bytes.push(parseInt(hex.substr(c, 2), 16));
+        bytes.push(parseInt(hex.substr(c, 2), 16));
     return bytes;
 }
 
@@ -28,7 +28,7 @@ function encrypt() {
   // get the text and convert it into bytes
   var text = document.getElementById("textarea_id0").value;
   console.log("original text:" + text);
-  var textBytes = aesjs.utils.utf8.toBytes(text)
+  var textBytes = aesjs.utils.utf8.toBytes(text);
   console.log("original text in bytes:" + textBytes);
 
   // get the key and calculate the sha-256 hash, then convert it into bytes
@@ -56,7 +56,7 @@ function encrypt() {
 function decrypt() {
   console.log("DECRYPT");
   // get the text and convert it into bytes
-  var text = document.getElementById("textarea_id0").value;
+  var text = document.getElementById("textarea_id1").value;
   console.log("original text:" + text);
   var encryptedText = atob(text);
   var encryptedBytes = JSON.parse("[" + encryptedText + "]");
@@ -77,5 +77,5 @@ function decrypt() {
   console.log("decryptedBytes:" + decryptedBytes);
   var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
 
-  document.getElementById("textarea_id1").value = decryptedText;
+  document.getElementById("textarea_id0").value = decryptedText;
 }
