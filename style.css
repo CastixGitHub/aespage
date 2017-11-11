@@ -1,15 +1,16 @@
 html {
-  font-size: 100%;
+    font-size: 100%;
 }
 
 header {
-  text-align: center;
+    text-align: left;
+    color: #017474;
 }
 
 textarea {
-  min-height: 12rem;
+    min-height: 12rem;
 }
 
 div.row {
-   margin: .8rem 0;
+    margin: .8rem 0;
 }
